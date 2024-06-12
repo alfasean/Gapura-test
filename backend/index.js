@@ -94,6 +94,15 @@ app.get('/reports', (req, res) => {
   });
 });
 
+app.get('/expeditions', (req, res) => {
+  const query = `SELECT * FROM Ekspedisi`;
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
