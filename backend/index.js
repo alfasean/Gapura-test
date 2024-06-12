@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const cors = require('cors'); 
 
 const app = express();
 const port = 4000;
 
+app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
@@ -18,7 +20,6 @@ db.connect(err => {
   if (err) throw err;
   console.log('MySQL Connected...');
 });
-
 
 app.post('/packages', (req, res) => {
   const { nama_pengirim, alamat_pengirim, nama_penerima, alamat_penerima, ekspedisi_id, status } = req.body;
@@ -37,7 +38,6 @@ app.get('/packages', (req, res) => {
   });
 });
 
-
 app.get('/packages/:id', (req, res) => {
   const { id } = req.params;
   const query = `SELECT * FROM Paket WHERE id = ?`;
@@ -46,7 +46,6 @@ app.get('/packages/:id', (req, res) => {
     res.send(result);
   });
 });
-
 
 app.put('/packages/:id', (req, res) => {
   const { id } = req.params;
@@ -57,7 +56,6 @@ app.put('/packages/:id', (req, res) => {
     res.send(result);
   });
 });
-
 
 app.delete('/packages/:id', (req, res) => {
   const { id } = req.params;
@@ -101,7 +99,6 @@ app.get('/expeditions', (req, res) => {
     res.send(results);
   });
 });
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
